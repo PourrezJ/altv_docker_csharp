@@ -1,13 +1,27 @@
-FROM        ubuntu:18.10
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2.104 as dotnet
 
-LABEL       author="Djoe_" maintainer="flashxbox41@gmail.com"
+ARG bridge_version=1.0.0.0
 
-RUN         apt-get update && \
-            apt-get install -y --no-install-recommends build-essential cmake wget ca-certificates iproute2 curl tar libstdc++6 libc-bin libc6 libc6-dev libc6-dbg && \
-            adduser -D -h /home/container container
+ENV NUGET_XMLDOC_MODE=skip
+ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 
+ENV LANG=C.UTF-8
+
+ENV         DEBIAN_FRONTEND noninteractive
+
+# Install Dependencies
+RUN apt-get update
+RUN apt-get install -y \
+    libunwind8 \
+    icu-devtools \
+    curl \
+    libssl-dev && \
+    rm -rf /var/lib/apt/lists/* \
+	&& useradd -m -d /home/container container
+	
+	
 USER        container
-ENV         USER=container HOME=/home/container
+ENV         HOME /home/container
 WORKDIR     /home/container
 
 COPY        ./entrypoint.sh /entrypoint.sh
