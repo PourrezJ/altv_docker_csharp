@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install Dependencies
 RUN apt-get update -y && \
- && apt-get install -y curl ca-certificates tar fontconfig tzdata iproute2 wget libc-bin && \
+ && apt-get install -y curl ca-certificates tar fontconfig tzdata iproute2 wget libc-bin libc6 libc6-dev libc6-dbg && \
  && useradd -d /home/container -m container
  
 RUN apt-get clean
