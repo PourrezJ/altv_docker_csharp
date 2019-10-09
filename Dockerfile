@@ -7,22 +7,21 @@ ENV DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 
 ENV LANG=C.UTF-8
 
-ENV         DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND noninteractive
 
 # Install Dependencies
-RUN apt-get update
-RUN apt-get install -y \
-    libunwind8 \
-    icu-devtools \
-    curl \
-    libssl-dev && \
-    rm -rf /var/lib/apt/lists/* \
-	&& useradd -m -d /home/container container
-	
-	
+RUN apt-get update -y \
+ && apt-get install -y curl ca-certificates openssl git tar fontconfig tzdata iproute2 \
+ && useradd -d /home/container -m container
+ 
+USER container
+ENV  USER=container HOME=/home/container
+
 USER        container
-ENV         HOME /home/container
+ENV         USER=container HOME=/home/container
+
 WORKDIR     /home/container
 
 COPY        ./entrypoint.sh /entrypoint.sh
+
 CMD         ["/bin/bash", "/entrypoint.sh"]
