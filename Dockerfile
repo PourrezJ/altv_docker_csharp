@@ -11,7 +11,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 # Install Dependencies
 RUN apt-get update -y \
- && apt-get install -y curl ca-certificates openssl git tar fontconfig tzdata iproute2 wget \
+ && apt-get install -y curl ca-certificates openssl git tar fontconfig tzdata iproute2 wget libstdc++6 libc6 libc6-dev libc6-dbg\
  && useradd -d /home/container -m container
  
 USER container
