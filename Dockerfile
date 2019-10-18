@@ -4,11 +4,18 @@ ENV LANG=C.UTF-8
 
 ENV DEBIAN_FRONTEND noninteractive
 
-# Install Dependencies
-RUN apt-get update -y && \
- && apt-get install -y curl ca-certificates tar fontconfig tzdata iproute2 wget libc-bin libc6 libc6-dev libc6-dbg && \
- && useradd -d /home/container -m container
- 
+# Install Prereqs
+RUN apt-get update && \
+    apt-get install -y wget unzip curl libc-bin gettext-base
+
+# Install NodeJS
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash && \
+	apt-get install -y nodejs
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends build-essential cmake ca-certificates openssl iproute2 && \
+    adduser -D -h /home/container container
+    
 RUN apt-get clean
 
 USER container
