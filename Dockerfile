@@ -1,4 +1,4 @@
-FROM debian:latest  
+FROM mcr.microsoft.com/dotnet/core/runtime:3.0 
   
 LABEL author="Pterodactyl Software" maintainer="support@pterodactyl.io"
 
