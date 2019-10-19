@@ -1,14 +1,15 @@
-FROM busybox:glibc
+FROM debian:latest  
+  
+LABEL author="Pterodactyl Software" maintainer="support@pterodactyl.io"
 
+ENV DEBIAN_FRONTEND noninteractive
 ENV LANG=C.UTF-8
 
 RUN apt-get update -y \
- && apt-get install -y wget curl ca-certificates openssl git tar sqlite fontconfig tzdata iproute2 \
- && useradd -d /home/container -m container
-
-# Install NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_12.x | bash && \
-	apt-get install -y nodejs
+	&& echo "deb http://ftp.debian.org/debian sid main" | tee -a /etc/apt/sources.list \ 
+	&& export DEBIAN_FRONTEND=noninteractive \  
+ 	&& apt-get install -y curl iproute2 \
+ 	&& useradd -d /home/container -m container
 
 USER        container
 ENV         USER=container HOME=/home/container
@@ -16,5 +17,4 @@ ENV         USER=container HOME=/home/container
 WORKDIR     /home/container
 
 COPY        ./entrypoint.sh /entrypoint.sh
-
 CMD         ["/bin/bash", "/entrypoint.sh"]
