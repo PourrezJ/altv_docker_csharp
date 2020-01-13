@@ -8,7 +8,7 @@ ENV LANG=C.UTF-8
 RUN apt-get update -y \
 	&& echo "deb http://ftp.debian.org/debian sid main" | tee -a /etc/apt/sources.list \ 
 	&& export DEBIAN_FRONTEND=noninteractive \  
- 	&& apt-get install -y curl iproute2 \
+ 	&& apt-get install -y curl iproute2 libatomic1 \
  	&& useradd -d /home/container -m container
 
 USER        container
